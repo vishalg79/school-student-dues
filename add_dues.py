@@ -11,13 +11,19 @@ def add_student_dues(event, context) :
 
     # print(students.creation_date_time)
 
+    # read values from event dictionary
+    assert isinstance(event, dict)
+    studentId = event.get('StudentId')
+    itemPurchased = event.get('ItemPurchased')
+    amount = event.get('Amount')
+
     students.put_item(
         Item = {
-            'StudentId' : 1,
-            'ItemPurchased' : 'EDC',
-            'Amount' : 10,
+            'StudentId' : studentId,
+            'ItemPurchased' : itemPurchased,
+            'Amount' : amount,
         }
     )
 
-    # assert isinstance(event, dict)
+    
 
