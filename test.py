@@ -1,4 +1,4 @@
-import add_dues, sqs
+import student_dues, sqs
 
 # myEvent = {
 #     'StudentId': 2,
