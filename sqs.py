@@ -1,6 +1,6 @@
 import boto3
 
-def add_message(tableName, action, actionAttributes):
+def add_message_insert_item(tableName, columnNames, columnValues):
     sqs = boto3.resource('sqs')
     queue = sqs.get_queue_by_name(
         QueueName = 'school-db-updates'
@@ -9,20 +9,48 @@ def add_message(tableName, action, actionAttributes):
     queue.send_message(
         MessageBody = 'hello world',
         MessageAttributes = {
-            'Table' : {
+            'table' : {
                 'DataType': 'String',
                 'StringValue': tableName
             },
-            'Action': {
+            'action': {
                 'DataType': 'String',
-                'StringValue': action                
+                'StringValue': 'INSERT'        
             },
-            'ActionAttributes': {
+            'StudentId': {
+                'DataType': 'Number',
+                'StringValue': '2'
+            },
+            'ItemPurchased': {
                 'DataType': 'String',
-                'StringListValues': [
-                    
-                ]   
-            }
+                'StringValue': 'EDC'
+            },
+            'Amount': {
+                'DataType': 'Number',
+                'StringValue': '50'
+            },
+            # 'columnNames': {
+            #     [
+            #         {
+            #             'DataType': 'String',
+            #             'StringValue': 'StudentId'
+            #         },
+            #         {
+            #             'DataType': 'String',
+            #             'StringValue': 'ItemPurchased'
+            #         },
+            #         {
+            #             'DataType': 'String',
+            #             'StringValue': 'Amount'
+            #         }
+            #     ]
+            # },
+            # 'columnValues': {
+            #     'DataType': 'StringList',
+            #     'StringListValues' : [
+            #         columnValues
+            #     ]
+            # }
         }
     )
 

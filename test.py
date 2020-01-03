@@ -9,14 +9,15 @@ import add_dues, sqs
 # add_dues.add_student_dues(myEvent, None)
 
 myTable = "Students"
-myAction = "INSERT"
-myActionAttributes = {
-    'StudentId': 2,
-    'ItemPurchased': "EDC",
-    'Amount': 100
-}
+myColumnNames = ['StudentId', 'ItemPurchased', 'Amount']
+myColumnValues = ['2', 'EDC', '100']
+# myActionAttributes = {
+#     'StudentId': 2,
+#     'ItemPurchased': "EDC",
+#     'Amount': 100
+# }
 
-sqs.add_message(myTable, myAction, myActionAttributes)
+sqs.add_message_insert_item(myTable, myColumnNames, myColumnValues)
 
 # myActionAttributes = {
 #     'key' : 'StudentId',
