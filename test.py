@@ -1,37 +1,24 @@
 import student_dues, sqs
 
-# myEvent = {
-#     'StudentId': 2,
-#     'ItemPurchased': "EDC",
-#     'Amount': 100
-# }
+myEvent = {
+    'Records': [
+        {
+            'StudentId': 1,
+            'ItemPurchased': 'EDC',
+            'Amount': 15
+        },
+        {
+            'StudentId': 2,
+            'ItemPurchased': 'Worksheet',
+            'Amount': 20
+        }
+    ]
+}
 
-# add_dues.add_student_dues(myEvent, None)
+student_dues.add_student_dues(myEvent, None)
 
-myTable = "Students"
-myColumnNames = ['StudentId', 'ItemPurchased', 'Amount']
-myColumnValues = ['2', 'EDC', '100']
-# myActionAttributes = {
-#     'StudentId': 2,
-#     'ItemPurchased': "EDC",
-#     'Amount': 100
-# }
+myQueueName = 'school-db-updates'
+myTable = 'Students'
 
-sqs.add_message_insert_item(myTable, myColumnNames, myColumnValues)
+# sqs.add_message_insert_item(myQueueName, myTable, myEvent)
 
-# myActionAttributes = {
-#     'key' : 'StudentId',
-#     'keyValue' : 4,
-#     'columns' : [
-#         {
-#             'name' : 'ItemPurchased',
-#             'oldValue': None,
-#             'newValue' : 'EDC'
-#         },
-#         {
-#             'name' : 'Amount',
-#             'oldValue': None,
-#             'newValue' : 10
-#         }
-#     ]
-# }

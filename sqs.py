@@ -1,28 +1,15 @@
 import boto3, json
 
-def add_message_insert_item(tableName, columnNames, columnValues):
+def add_message_insert_item(queueName, tableName, record):
     sqs = boto3.resource('sqs')
     queue = sqs.get_queue_by_name(
-        QueueName = 'school-db-updates'
+        QueueName = queueName
     )
 
     messageBody = {}
-    messageBody['table'] = 'Students'
-    messageBody['action'] = 'INSERT'
-    messageBody['columns'] = [
-        {
-            'name': 'StudentId',
-            'value': 2
-        },
-        {
-            'name': 'ItemPurchased',
-            'value': 'EDC'
-        },
-        {
-            'name': 'Amount',
-            'value': 50
-        },
-    ]
+    messageBody['Table'] = 'Students'
+    messageBody['Action'] = 'CREATE'
+    messageBody['Records'] = [record]
 
     queue.send_message(
         MessageBody = json.dumps(messageBody),

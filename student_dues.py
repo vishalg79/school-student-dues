@@ -1,29 +1,19 @@
-import boto3, printCreds as creds
+import boto3, sqs, printCreds as creds
 
 # creds.printCurrCreds()
 
-def add_student_dues(event, context) :
-    ddb = boto3.resource('dynamodb')
-    # assert isinstance(ddb, boto3.dynamodb)
-
-    students = ddb.Table('Students')
-    # assert isinstance(students, boto3.dynamodb.table.TableResource)
-
-    # print(students.creation_date_time)
-
-    # read values from event dictionary
+def add_student_dues(event, context):
     assert isinstance(event, dict)
-    studentId = event.get('StudentId')
-    itemPurchased = event.get('ItemPurchased')
-    amount = event.get('Amount')
 
-    students.put_item(
-        Item = {
-            'StudentId' : studentId,
-            'ItemPurchased' : itemPurchased,
-            'Amount' : amount,
-        }
-    )
+    records = event.get("Records")
 
-    
+    ddb = boto3.resource('dynamodb')
+    students = ddb.Table('Students')
 
+    for record in records:
+        assert isinstance(record, dict)
+        students.put_item(
+            Item = record
+        )
+        
+        sqs.add_message_insert_item('school-db-updates', 'Students', record)
